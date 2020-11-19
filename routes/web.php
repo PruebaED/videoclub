@@ -19,12 +19,42 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function(){
 
-	return 'Pantalla principal';
+	return "Pantalla principal";
 
 });
 
 Route::get('login', function(){
 
-	return 'Login usuario';
+	return "Login usuario";
+
+});
+
+Route::get('logout', function(){
+
+	return "Logout usuario";
+
+});
+
+Route::get('catalog', function(){
+
+	return "Listado películas";
+
+});
+
+Route::get('catalog/show/{id}', function($id){
+
+	return "Vista detalle película " . $id; 
+
+}); // ->where('id' ->[0-9]); - No se pone ahorap orque no lo pide
+
+Route::get('catalog/create', function(){
+
+	return "Añadir pelicula";
+
+});
+
+Route::get('catalog/edit/{id}', function($id){
+
+	return "Modificar película " . $id;
 
 });
