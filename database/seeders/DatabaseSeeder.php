@@ -17,8 +17,15 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         self::seedCatalog();
+
         self::seedUsers();
+
         $this->command->info('Tabla catálogo inicializada con datos!');
+
+        $this->call([ /* Hay que usar esto siempre que se creen distintas seeders al DatabaseSeeder. De esta forma, al ejecutar php artisan db:seed, conseguimos que Laravel nos "detecte" también PeliculasTableSeeder */
+	        PeliculasTableSeeder::class,
+    	]);
+
     }
 
     private static function seedCatalog()
