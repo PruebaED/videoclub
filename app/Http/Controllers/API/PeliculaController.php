@@ -39,6 +39,39 @@ class PeliculaController extends Controller
         return response()->json(json_decode($response));
     }
 
+    public function storeOMDB($idFilm) {
+
+        $host = 'www.omdbapi.com';
+
+        $response = Http::get('http://' . $host . '/', [
+            'apikey' => env('OMDBAPI_KEY'),
+            'i' => $idFilm, // Ahora se le pasa un ID en lugar del nombre de la película.
+            'page' => 1,
+            'r' => 'json'
+        ]);
+
+        $pelicula = new Pelicula();
+
+        // Vamos recuperando los campos que nos interesa almacenar en la BBDD, provenientes de la respuesta
+        // ($response) que genera la API OMDB. 
+
+        $pelicula->title = $response['Title'];
+
+        $pelicula->year = $response['Year'];
+
+        $pelicula->director = $response['Director'];
+
+        $pelicula->poster = $response['Poster'];
+
+        $pelicula->synopsis = $response['Plot'];
+
+        $pelicula->save();
+
+        // Usamos esto para que el usuario pueda ver los datos que se han a introducido en la BBDD.
+        return new PeliculaResource($pelicula); 
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *

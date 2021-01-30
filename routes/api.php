@@ -22,3 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('peliculas', PeliculaController::class);
 
 Route::get('peliculas/search/{search}', [PeliculaController::class, 'search'])->name('peliculas.search');
+
+Route::post('peliculas/newOMDB/{idFilm}', [PeliculaController::class, 'storeOMDB']);
