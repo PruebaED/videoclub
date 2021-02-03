@@ -17,7 +17,9 @@ class PeliculaController extends Controller
      */
     public function index()
     {
+
         return PeliculaResource::collection(Pelicula::paginate());
+
     }
 
     /**
@@ -37,6 +39,7 @@ class PeliculaController extends Controller
             'r' => 'json'
         ]);
         return response()->json(json_decode($response));
+
     }
 
     /**
@@ -48,11 +51,14 @@ class PeliculaController extends Controller
     public function store(Request $request)
     {
 
+        $this->authorize('store', Pelicula::class);
+
         $pelicula = json_decode($request->getContent(), true);
 
         $pelicula = Pelicula::create($pelicula);
 
         return new PeliculaResource($pelicula);
+
     }
 
     public function storeOMDB($idFilm){
@@ -82,7 +88,9 @@ class PeliculaController extends Controller
      */
     public function show(Pelicula $pelicula)
     {
+
         return new PeliculaResource($pelicula);
+
     }
 
     /**
@@ -94,10 +102,12 @@ class PeliculaController extends Controller
      */
     public function update(Request $request, Pelicula $pelicula)
     {
+
         $peliculaData = json_decode($request->getContent(), true);
         $pelicula->update($peliculaData);
 
         return new PeliculaResource($pelicula);
+
     }
 
     /**
@@ -108,6 +118,10 @@ class PeliculaController extends Controller
      */
     public function destroy(Pelicula $pelicula)
     {
+
+        $this->authorize('destroy', $pelicula);
+
         $pelicula->delete();
+
     }
 }

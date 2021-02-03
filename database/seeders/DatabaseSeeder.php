@@ -16,10 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
         \App\Models\User::factory(10)->create();
         self::seedCatalog();
         self::seedPeliculas();
+        self::seedUsuarios();
         $this->command->info('Tabla catálogo inicializada con datos!');
+        
     }
 
     private static function seedCatalog()
@@ -52,6 +55,29 @@ class DatabaseSeeder extends Seeder
 		}
     }
 
+    private static function seedUsuarios() {
+
+    	$usuario1 = new User;
+    	$usuario1->name = 'Guillermo Gómez';
+    	$usuario1->email = 'guillermogomez@alu.murciaeduca.es';
+    	$usuario1->password = bcrypt('guillermogomez');
+    	$usuario1->administrador = true;
+    	$usuario1->save();
+
+    	$usuario2 = User::create([
+    		'name' => 'Alberto Sierra',
+    		'email' => 'albertosierra@alu.murciaeduca.es',
+    		'password' => bcrypt('albertosierra'),
+    		'proveedor' => true,
+    	]);
+
+    	$usuario3 = new User;
+    	$usuario3->name = 'Sin Permisos';
+    	$usuario3->email = 'sinPermisos@peliculas.com';
+    	$usuario3->password = bcrypt('sinpermisos');
+    	$usuario3->save();
+
+    }
 
 	private static $arrayPeliculas = array(
 			array(
